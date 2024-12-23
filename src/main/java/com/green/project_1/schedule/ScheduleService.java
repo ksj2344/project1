@@ -1,6 +1,7 @@
 package com.green.project_1.schedule;
 
 
+import com.green.project_1.common.ResponseCode;
 import com.green.project_1.common.ResponseResult;
 import com.green.project_1.schedule.model.req.DeleteSchedule;
 import com.green.project_1.schedule.model.req.ScheduleAddReq;
@@ -24,31 +25,28 @@ public class ScheduleService {
             return ResponseResult.serverError();
         }
         MemberSchedule detail=mapper.scheduleDetail(scheduleNo);
-        MemberSchedule res=(MemberSchedule)ResponseResult.success();
-        res.setChecked(detail.isChecked());
-        res.setDetail(detail.getDetail());
-        res.setTitle(detail.getTitle());
-        res.setCreatedAt(detail.getCreatedAt());
-        res.setProjectName(detail.getProjectName());
-        res.setUserNickname(detail.getUserNickname());
-        res.setUserProfilePic(detail.getUserProfilePic());
-        return res;
+        return new MemberSchedule("OK",
+                detail.getContent(),
+                detail.getDetail(),
+                detail.isChecked(),
+                detail.getCreatedAt(),
+                detail.getUserNickname(),
+                detail.getUserProfilePic()
+                );
     }
 
     //일정 생성
     public ResponseResult scheduleAdd(ScheduleAddReq sch){
+        log.info("service>Schedule:{}", sch);
         long leaderNo= userMapper.leaderNo(sch.getProjectNo());
         long doUserNo=sch.getScheduleUserNo();
-        long myUserNo=sch.getSignedUserNo();
+        long myUserNo=sch.getSighInUserNo();
         if(myUserNo!=leaderNo && myUserNo!=doUserNo){
             return ResponseResult.noPermission();
         }
         int result=mapper.scheduleAdd(sch);
         if(result==0){ResponseResult.serverError();}
-
-        ScheduleAddRes res=(ScheduleAddRes)ResponseResult.success();
-        res.setScheduleNo(sch.getScheduleNo());
-        return res;
+        return new ScheduleAddRes("OK",sch.getScheduleNo());
     }
 
     //일정 완료 체크
@@ -57,10 +55,11 @@ public class ScheduleService {
             return ResponseResult.serverError();
         }
         long doUserNo=userMapper.scheduleUserNoFromSchedule(scheduleNo);
-        if(doUserNo==signedUserNo){
+        if(doUserNo!=signedUserNo){
             return ResponseResult.noPermission();
         }
-        mapper.scheduleComplete(scheduleNo, mapper.getCheked(scheduleNo));
+        int cheked = mapper.getCheked(scheduleNo);
+        mapper.scheduleComplete(scheduleNo, cheked);
 
         return ResponseResult.success();
     }
@@ -74,6 +73,11 @@ public class ScheduleService {
         if(myUserNo!=leaderNo && myUserNo!=doUserNo){
             return ResponseResult.noPermission();
         }
+        String content=patch.getContent();
+        String detail=patch.getDetail();
+        if(content!=null&&detail==null||content==null&&detail!=null){
+            return ResponseResult.badRequest(ResponseCode.NOT_NULL);
+        }
         int res=mapper.scheduleUpdate(patch);
         if(res==0){return ResponseResult.serverError();}
         return ResponseResult.success();
@@ -81,13 +85,10 @@ public class ScheduleService {
 
     //일정 삭제
     public ResponseResult scheduleDelete(DeleteSchedule del){
-        long doUserNo=del.getScheduleUserNo();
-        long leaderNo=userMapper.leaderNo(del.getProjectNo());
-        long myUserNo=del.getSignedUserNo();
-        if(doUserNo!=myUserNo && leaderNo!=myUserNo){
+        if(del.getScheduleUserNo()!=del.getSignedUserNo()){
             return ResponseResult.noPermission();
         }
-        int res=mapper.scheduleDelete(del);
+        int res=mapper.scheduleDelete(del.getScheduleNo());
         if(res==0){return ResponseResult.serverError();}
         return ResponseResult.success();
     }

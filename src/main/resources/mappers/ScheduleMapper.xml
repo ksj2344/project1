@@ -3,9 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.project_1.schedule.ScheduleMapper">
+
     <select id="scheduleDetail">
         SELECT A.content, A.detail, A.cheked, A.created_at AS createdAt
-        , C.title AS projectName, B.nickname AS userNickname, B.profile_pic AS userProfilePic
+        , B.nickname AS userNickname, B.profile_pic AS userProfilePic
         FROM schedule A
         INNER JOIN user B
         ON A.user_no=B.user_no
@@ -31,10 +32,10 @@
     <update id="scheduleComplete">
         UPDATE schedule
         <set>
-            <if test="cheked=0">
+            <if test="cheked==0">
                 cheked=1
             </if>
-            <if test="cheked=1">
+            <if test="cheked==1">
                 cheked=0
             </if>
         </set>
@@ -57,8 +58,7 @@
 
     <delete id="scheduleDelete">
         DELETE FROM schedule
-        WHERE user_no=#{scheduleUserNo}
-        AND schedule_no=#{scheduleNo}
+        WHERE schedule_no=#{scheduleNo}
     </delete>
 
 </mapper>

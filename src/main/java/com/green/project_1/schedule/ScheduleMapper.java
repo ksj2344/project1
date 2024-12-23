@@ -21,5 +21,5 @@ public interface ScheduleMapper {
     //일정 수정
     int scheduleUpdate(SchedulePatch p);
     //일정 삭제
-    int scheduleDelete(DeleteSchedule d);
+    int scheduleDelete(long scheduleNo);
 }

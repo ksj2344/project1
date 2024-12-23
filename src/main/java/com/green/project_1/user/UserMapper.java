@@ -8,4 +8,6 @@ public interface UserMapper {
     long leaderNo(long projectNo);
     //스케줄 번호로 실행자 번호 가져오기
     long scheduleUserNoFromSchedule(long scheduleNo);
+
+
 }
