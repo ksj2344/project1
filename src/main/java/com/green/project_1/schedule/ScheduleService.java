@@ -52,14 +52,13 @@ public class ScheduleService {
     //일정 완료 체크
     public ResponseResult scheduleComplete(long signedUserNo, long scheduleNo){
         if(scheduleNo <= 0||signedUserNo<=0){
-            return ResponseResult.serverError();
+            return ResponseResult.badRequest(ResponseCode.FAIL);
         }
         long doUserNo=userMapper.scheduleUserNoFromSchedule(scheduleNo);
         if(doUserNo!=signedUserNo){
             return ResponseResult.noPermission();
         }
-        int cheked = mapper.getCheked(scheduleNo);
-        mapper.scheduleComplete(scheduleNo, cheked);
+        mapper.scheduleComplete(scheduleNo, mapper.getCheked(scheduleNo));
 
         return ResponseResult.success();
     }
@@ -79,7 +78,7 @@ public class ScheduleService {
             return ResponseResult.badRequest(ResponseCode.NOT_NULL);
         }
         int res=mapper.scheduleUpdate(patch);
-        if(res==0){return ResponseResult.serverError();}
+        if(res==0){return ResponseResult.badRequest(ResponseCode.FAIL);}
         return ResponseResult.success();
     }
 
