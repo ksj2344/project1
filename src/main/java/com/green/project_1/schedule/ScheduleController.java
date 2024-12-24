@@ -46,7 +46,7 @@ public class ScheduleController {
 
     @DeleteMapping
     @Operation(summary = "일정삭제하기", description = "일정 삭제하기")
-    public ResponseResult scheduleDelete(@Valid @ParameterObject DeleteSchedule delSchedule){
+    public ResponseResult scheduleDelete(@Valid @RequestBody DeleteSchedule delSchedule){
         return service.scheduleDelete(delSchedule);
     }
 

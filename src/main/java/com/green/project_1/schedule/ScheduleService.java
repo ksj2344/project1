@@ -85,7 +85,8 @@ public class ScheduleService {
 
     //일정 삭제
     public ResponseResult scheduleDelete(DeleteSchedule del){
-        if(del.getScheduleUserNo()!=del.getSignedUserNo()){
+        long doUserNo=userMapper.scheduleUserNoFromSchedule(del.getScheduleNo());
+        if(doUserNo!=del.getSignedUserNo()){
             return ResponseResult.noPermission();
         }
         int res=mapper.scheduleDelete(del.getScheduleNo());

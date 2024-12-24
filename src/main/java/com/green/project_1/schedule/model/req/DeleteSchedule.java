@@ -15,9 +15,6 @@ public class DeleteSchedule {
     @Schema(description = "일정 번호", type="long", example="4",requiredMode=Schema.RequiredMode.REQUIRED)
     private long scheduleNo;
     @Positive
-    @Schema(description = "일정 실행하는 팀원 번호", type="long", example="2",requiredMode=Schema.RequiredMode.REQUIRED)
-    private long scheduleUserNo;
-    @Positive
     @Schema(description = "로그인한 팀원 번호", type="long", example="2",requiredMode=Schema.RequiredMode.REQUIRED)
     private long signedUserNo;
 }
