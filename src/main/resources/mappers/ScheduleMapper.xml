@@ -6,12 +6,12 @@
 
     <select id="scheduleDetail">
         SELECT A.content, A.detail, A.cheked, A.created_at AS createdAt
-        , B.nickname AS userNickname, B.profile_pic AS userProfilePic
+        , C.nickname AS userNickname, C.profile_pic AS userProfilePic
         FROM schedule A
-        INNER JOIN user B
-        ON A.user_no=B.user_no
-        INNER JOIN project C
-        ON C.project_no=A.project_no
+        INNER JOIN user_project B
+        ON B.user_project_no=A.user_project_no
+        INNER JOIN user C
+        ON B.user_no=C.user_no
         WHERE A.schedule_no=#{scheduleNo}
     </select>
 
@@ -21,7 +21,7 @@
         , user_project_no = (
         SELECT A.user_project_no FROM user_project A
         WHERE user_no=#{scheduleUserNo}
-        AND project_no=#{projectNo} )
+        AND project_no=#{projectNo})
         <if test="detail != null and detail != ''">
         , detail=#{detail}
         </if>
@@ -53,7 +53,7 @@
         user_project_no = (
         SELECT A.user_project_no FROM user_project A
         WHERE user_no=#{scheduleUserNo}
-        AND project_no=#{projectNo} )
+        AND project_no=#{projectNo})
         <if test="content != null and content != ''">
             , content = #{content}
         </if>

@@ -25,6 +25,7 @@ spring:
     multipart:
       max-file-size: 15MB
 
+
 springdoc:
   swagger-ui:
     default-model-expand-depth: 10
