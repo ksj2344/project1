@@ -40,9 +40,8 @@ public class ScheduleService {
     public ResponseResult scheduleAdd(ScheduleAddReq sch){
         log.info("service>Schedule:{}", sch);
         long leaderNo= userMapper.leaderNo(sch.getProjectNo());
-        long doUserNo=sch.getScheduleUserNo();
         long myUserNo=sch.getSighInUserNo();
-        if(myUserNo!=leaderNo && myUserNo!=doUserNo){
+        if(myUserNo!=leaderNo && myUserNo!=sch.getScheduleUserNo()){
             return ResponseResult.noPermission();
         }
         int result=mapper.scheduleAdd(sch);

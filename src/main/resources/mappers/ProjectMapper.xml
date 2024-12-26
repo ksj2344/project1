@@ -6,9 +6,34 @@
 
     <update id="userLock">
         UPDATE user_project
-        SET `lock`='1'
+        SET `lock`=1
         WHERE user_no=#{targetUserNo}
     </update>
+
+    <update id="userUnLock">
+        UPDATE user_project
+        SET `lock`=0
+        WHERE user_no=#{targetUserNo}
+    </update>
+
+    <update id="userLockToggle">
+        UPDATE user_project
+        <set>
+            <if test="locked==0">
+                `lock`=1
+            </if>
+            <if test="locked==1">
+                `lock`=0
+            </if>
+        </set>
+        WHERE user_no=#{targetUserNo}
+    </update>
+    <select id="checkLocked">
+        SELECT `lock`
+        FROM user_project
+        WHERE user_no=#{targetUserNo}
+        AND project_no=#{projectNo}
+    </select>
 
     <insert id="insUserProjectList">
         INSERT INTO user_project

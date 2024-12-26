@@ -8,14 +8,14 @@ import org.springframework.validation.annotation.Validated;
 
 @Getter
 @Setter
-@Schema(title="유저 잠금")
+@Schema(title="프로젝트 유저 LOCK")
 @Validated
 public class ProjectUserLockReq {
     @Positive
     @Schema(description = "로그인한 유저", type="long", example="4",requiredMode=Schema.RequiredMode.REQUIRED)
     private long signedUserNo;
     @Positive
-    @Schema(description = "잠글 유저", type="long", example="4",requiredMode=Schema.RequiredMode.REQUIRED)
+    @Schema(description = "LOCK 할 유저", type="long", example="4",requiredMode=Schema.RequiredMode.REQUIRED)
     private long targetUserNo;
     @Positive
     @Schema(description = "프로젝트 번호", type="long", example="4",requiredMode=Schema.RequiredMode.REQUIRED)

@@ -4,6 +4,7 @@ import com.green.project_1.common.ResponseCode;
 import com.green.project_1.common.ResponseResult;
 import com.green.project_1.project.model.req.ProjectUserEdit;
 import com.green.project_1.project.model.req.ProjectUserLockReq;
+import com.green.project_1.project.model.req.ProjectUserUnLockReq;
 import com.green.project_1.user.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,23 @@ public class ProjectService {
         if(userMapper.leaderNo(p.getProjectNo())!=p.getSignedUserNo()){
             ResponseResult.noPermission();
         }
-        mapper.userLock(p);
+        mapper.userLock(p.getTargetUserNo());
+        return ResponseResult.success();
+    }
+
+    ResponseResult userUnLock(ProjectUserUnLockReq p){
+        if(userMapper.leaderNo(p.getProjectNo())!=p.getSignedUserNo()){
+            ResponseResult.noPermission();
+        }
+        mapper.userUnLock(p.getTargetUserNo());
+        return ResponseResult.success();
+    }
+
+    ResponseResult userLockToggle(ProjectUserLockReq p){
+        if(userMapper.leaderNo(p.getProjectNo())!=p.getSignedUserNo()){
+            ResponseResult.noPermission();
+        }
+        mapper.userLockToggle(p.getTargetUserNo(), mapper.checkLocked(p.getProjectNo(),p.getTargetUserNo()));
         return ResponseResult.success();
     }
 
