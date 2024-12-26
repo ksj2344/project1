@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 @Getter
 @Setter
 @Validated
+@Schema(title="일정 삭제")
 public class DeleteSchedule {
     @Positive
     @Schema(description = "일정 번호", type="long", example="4",requiredMode=Schema.RequiredMode.REQUIRED)

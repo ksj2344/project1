@@ -9,4 +9,22 @@
         SET `lock`='1'
         WHERE user_no=#{targetUserNo}
     </update>
+
+    <insert id="insUserProjectList">
+        INSERT INTO user_project
+        (user_no, project_no)
+        VALUES
+        <foreach collection="insertUserNoList" item="userNo" separator=",">
+            (#{userNo}, #{projectNo})
+        </foreach>
+    </insert>
+
+    <delete id="delUserProjectList">
+        DELETE FROM user_project
+        WHERE project_no = #{projectNo}
+        AND user_no IN
+        <foreach collection="deleteUserNoList" item="userNo" separator="," open="(" close=")">
+            #{userNo}
+        </foreach>
+    </delete>
 </mapper>
