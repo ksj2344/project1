@@ -6,7 +6,7 @@ import com.green.project_1.common.ResponseResult;
 import com.green.project_1.schedule.model.req.DeleteSchedule;
 import com.green.project_1.schedule.model.req.ScheduleAddReq;
 import com.green.project_1.schedule.model.req.SchedulePatch;
-import com.green.project_1.schedule.model.res.MemberSchedule;
+import com.green.project_1.schedule.model.res.ScheduleDetail;
 import com.green.project_1.schedule.model.res.ScheduleAddRes;
 import com.green.project_1.user.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,18 +20,19 @@ public class ScheduleService {
     private final ScheduleMapper mapper;
     private final UserMapper userMapper;
     //일정 상세
-    public ResponseResult scheduleDetail(long scheduleNo){
-        if(scheduleNo <= 0){
+    public ResponseResult scheduleDetail(long scheduleNo, long signedUserNo){
+        if(scheduleNo <= 0&&signedUserNo <= 0){
             return ResponseResult.serverError();
         }
-        MemberSchedule detail=mapper.scheduleDetail(scheduleNo);
-        return new MemberSchedule("OK",
+        ScheduleDetail<Integer> detail=mapper.scheduleDetail(scheduleNo,signedUserNo);
+        return new ScheduleDetail<Boolean>("OK",
                 detail.getContent(),
                 detail.getDetail(),
                 detail.isChecked(),
                 detail.getCreatedAt(),
                 detail.getUserNickname(),
                 detail.getUserProfilePic()
+                ,detail.getMySchedule()==1?true:false
                 );
     }
 
@@ -64,7 +65,7 @@ public class ScheduleService {
     }
 
     //일정 수정
-    //팀원만 수정하는건 xml파일에서 mybatis로 처리
+    //실행하는 팀원만 수정하는건 xml파일에서 mybatis로 처리
     public ResponseResult scheduleUpdate(SchedulePatch patch){
         long leaderNo= userMapper.leaderNo(patch.getProjectNo());
         long doUserNo= patch.getScheduleUserNo();

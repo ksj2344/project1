@@ -1,15 +1,14 @@
 package com.green.project_1.schedule;
 
-import com.green.project_1.schedule.model.req.DeleteSchedule;
 import com.green.project_1.schedule.model.req.ScheduleAddReq;
 import com.green.project_1.schedule.model.req.SchedulePatch;
-import com.green.project_1.schedule.model.res.MemberSchedule;
+import com.green.project_1.schedule.model.res.ScheduleDetail;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface ScheduleMapper {
     //일정 상세 페이지 불러오기
-    MemberSchedule scheduleDetail(long scheduleNo);
+    ScheduleDetail scheduleDetail(long scheduleNo,long signedUserNo);
     //일정 생성
     int scheduleAdd(ScheduleAddReq t);
 

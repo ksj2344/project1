@@ -7,11 +7,14 @@
     <select id="scheduleDetail">
         SELECT A.content, A.detail, A.cheked, A.created_at AS createdAt
         , C.nickname AS userNickname, C.profile_pic AS userProfilePic
+        , if(B.user_no=#{signedUserNo} OR D.leader_no=#{signedUserNo},1,0) AS mySchedule
         FROM schedule A
         INNER JOIN user_project B
         ON B.user_project_no=A.user_project_no
         INNER JOIN user C
         ON B.user_no=C.user_no
+        INNER JOIN project D
+        ON B.project_no=D.project_no
         WHERE A.schedule_no=#{scheduleNo}
     </select>
 

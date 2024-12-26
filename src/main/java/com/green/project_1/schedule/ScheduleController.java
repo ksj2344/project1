@@ -34,8 +34,8 @@ public class ScheduleController {
 
     @GetMapping
     @Operation(summary = "일정상세페이지", description = "특정 일정 상세 페이지 가져오기")
-    public ResponseResult scheduleDetail(@ParameterObject long scheduleNo){
-        return service.scheduleDetail(scheduleNo);
+    public ResponseResult scheduleDetail(@RequestParam long scheduleNo, @RequestParam long signedUserNo) {
+        return service.scheduleDetail(scheduleNo,signedUserNo);
     }
 
     @PutMapping
