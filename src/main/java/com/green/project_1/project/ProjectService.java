@@ -7,6 +7,7 @@ import com.green.project_1.project.model.req.ProjectUserLockReq;
 import com.green.project_1.user.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -52,5 +53,10 @@ public class ProjectService {
         int res=mapper.projectComplete(projectNo);
         if(res==0){return ResponseResult.badRequest(ResponseCode.FAIL);}
         return ResponseResult.success();
+    }
+
+    @Scheduled(cron = "0 0 0 * * *")
+    public void checkDeadline() throws Exception {
+        mapper.checkDeadline();
     }
 }

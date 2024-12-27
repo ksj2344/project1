@@ -12,4 +12,6 @@ public interface ProjectMapper {
     int insUserProjectList(long projectNo, List<Long> insertUserNoList);
 
     int projectComplete(long projectNo);
+
+    void checkDeadline();
 }

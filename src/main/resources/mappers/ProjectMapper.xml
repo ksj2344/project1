@@ -22,6 +22,13 @@
         AND S.checked=0)
     </update>
 
+    <select id="checkDeadline">
+        UPDATE project
+        SET project_complete = 1
+        WHERE deadline <![CDATA[ < ]]> CURDATE()
+        AND project_complete = 0
+    </select>
+
     <insert id="insUserProjectList">
         INSERT INTO user_project
         (user_no, project_no)
