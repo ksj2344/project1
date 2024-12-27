@@ -32,7 +32,7 @@ public class ScheduleService {
                 detail.getCreatedAt(),
                 detail.getUserNickname(),
                 detail.getUserProfilePic()
-                ,detail.getMySchedule()==1?true:false
+                ,detail.getMySchedule()==1
                 );
     }
 
