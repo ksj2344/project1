@@ -21,7 +21,7 @@ public class ScheduleService {
     private final UserMapper userMapper;
     //일정 상세
     public ResponseResult scheduleDetail(long scheduleNo, long signedUserNo){
-        if(scheduleNo <= 0&&signedUserNo <= 0){
+        if(scheduleNo <= 0 && signedUserNo <= 0){
             return ResponseResult.serverError();
         }
         ScheduleDetail<Integer> detail=mapper.scheduleDetail(scheduleNo,signedUserNo);

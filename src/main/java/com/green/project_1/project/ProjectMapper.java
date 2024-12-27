@@ -1,7 +1,5 @@
 package com.green.project_1.project;
 
-import com.green.project_1.project.model.req.ProjectUserLockReq;
-import com.green.project_1.project.model.req.ProjectUserUnLockReq;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
