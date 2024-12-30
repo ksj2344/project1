@@ -55,6 +55,7 @@ public class ProjectService {
         return ResponseResult.success();
     }
 
+    //정시에 deadline이 지난 프로젝트를 완료 처리
     @Scheduled(cron = "0 0 0 * * *")
     public void checkDeadline() throws Exception {
         mapper.checkDeadline();

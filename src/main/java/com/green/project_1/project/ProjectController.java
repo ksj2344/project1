@@ -29,7 +29,7 @@ public class ProjectController {
     }
 
     @PostMapping("{projectNo}")
-    @Operation(summary = "프로젝트 완료처리", description = "스케줄 미완료 없을 때 프로젝트 완료 처리")
+    @Operation(summary = "프로젝트 완료처리", description = "미완료된 스케줄이 없을 때 프로젝트 완료 처리")
     public ResponseResult projectComplete(@PathVariable @RequestParam long projectNo, @RequestParam long signedUserNo){
         return service.projectComplete(projectNo,signedUserNo);
     }
