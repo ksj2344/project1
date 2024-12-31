@@ -22,13 +22,12 @@ public class ProjectService {
 
     ResponseResult userLock(ProjectUserLockReq p){
         long leaderNo=userMapper.leaderNo(p.getProjectNo());
-        if(leaderNo!=p.getSignedUserNo()){
+        long signedUserNo=p.getSignedUserNo();
+        long targetUserNo=p.getTargetUserNo();
+        if(leaderNo!=signedUserNo || signedUserNo!=targetUserNo){
             return ResponseResult.noPermission();
         }
-        if(p.getTargetUserNo()==leaderNo){
-            return ResponseResult.badRequest(ResponseCode.SERVER_ERROR);
-        }
-        mapper.userLock(p.getTargetUserNo());
+        mapper.userLock(targetUserNo);
         return ResponseResult.success();
     }
 
