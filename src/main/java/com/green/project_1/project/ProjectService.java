@@ -21,8 +21,12 @@ public class ProjectService {
     private final UserMapper userMapper;
 
     ResponseResult userLock(ProjectUserLockReq p){
-        if(userMapper.leaderNo(p.getProjectNo())!=p.getSignedUserNo()){
+        long leaderNo=userMapper.leaderNo(p.getProjectNo());
+        if(leaderNo!=p.getSignedUserNo()){
             return ResponseResult.noPermission();
+        }
+        if(p.getTargetUserNo()==leaderNo){
+            return ResponseResult.badRequest(ResponseCode.SERVER_ERROR);
         }
         mapper.userLock(p.getTargetUserNo());
         return ResponseResult.success();
