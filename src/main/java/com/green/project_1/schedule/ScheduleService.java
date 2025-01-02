@@ -3,6 +3,7 @@ package com.green.project_1.schedule;
 
 import com.green.project_1.common.ResponseCode;
 import com.green.project_1.common.ResponseResult;
+import com.green.project_1.schedule.model.GetLeaderNoAndScheduledNoDto;
 import com.green.project_1.schedule.model.req.DeleteSchedule;
 import com.green.project_1.schedule.model.req.ScheduleAddReq;
 import com.green.project_1.schedule.model.req.SchedulePatch;
@@ -54,11 +55,11 @@ public class ScheduleService {
         if(scheduleNo <= 0||signedUserNo<=0){
             return ResponseResult.badRequest(ResponseCode.FAIL);
         }
-        long doUserNo=userMapper.scheduleUserNoFromSchedule(scheduleNo);
-        if(doUserNo!=signedUserNo && doUserNo!=userMapper.leaderNoFromscheduleNo(scheduleNo)){
+        GetLeaderNoAndScheduledNoDto dto=userMapper.scheduledAndLeaderNoFromscheduleNo(scheduleNo);
+        if(signedUserNo!= dto.getLeaderNo() && signedUserNo!=dto.getScheduledNo()){
             return ResponseResult.noPermission();
         }
-        mapper.scheduleComplete(scheduleNo, mapper.getCheked(scheduleNo));
+        mapper.scheduleComplete(scheduleNo, mapper.getChecked(scheduleNo));
 
         return ResponseResult.success();
     }
@@ -84,8 +85,9 @@ public class ScheduleService {
 
     //일정 삭제
     public ResponseResult scheduleDelete(DeleteSchedule del){
-        long doUserNo=userMapper.scheduleUserNoFromSchedule(del.getScheduleNo());
-        if(doUserNo!=del.getSignedUserNo()){
+        GetLeaderNoAndScheduledNoDto dto=userMapper.scheduledAndLeaderNoFromscheduleNo(del.getScheduleNo());
+        long signedUserNo=del.getSignedUserNo();
+        if(signedUserNo!= dto.getLeaderNo() && signedUserNo!=dto.getScheduledNo()){
             return ResponseResult.noPermission();
         }
         int res=mapper.scheduleDelete(del.getScheduleNo());

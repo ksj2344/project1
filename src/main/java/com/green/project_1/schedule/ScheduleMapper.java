@@ -13,9 +13,9 @@ public interface ScheduleMapper {
     int scheduleAdd(ScheduleAddReq t);
 
     //일정 완료체크 확인
-    int scheduleComplete(long scheduleNo, int cheked);
+    int scheduleComplete(long scheduleNo, int checked);
     //완료 여부 가져오기
-    int getCheked(long scheduleNo);
+    int getChecked(long scheduleNo);
 
     //일정 수정
     int scheduleUpdate(SchedulePatch p);

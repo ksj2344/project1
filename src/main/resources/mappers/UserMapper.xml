@@ -9,19 +9,13 @@
         WHERE project_no=#{projectNo}
     </select>
 
-    <select id="leaderNoFromscheduleNo">
-        SELECT U.user_no
+    <select id="scheduledAndLeaderNoFromscheduleNo">
+        SELECT P.leader_no AS leaderNo, U.user_no AS scheduledNo
         from schedule S
         INNER JOIN user_project U
         ON U.user_project_no=S.user_project_no
+        INNER JOIN project P
+        ON P.project_no=U.project_no
         WHERE S.schedule_no=#{scheduleNo}
-    </select>
-
-    <select id="scheduleUserNoFromSchedule">
-        SELECT user_no
-        FROM schedule A
-        INNER JOIN user_project B
-        ON B.user_project_no=A.user_project_no
-        WHERE schedule_no=#{scheduleNo}
     </select>
 </mapper>

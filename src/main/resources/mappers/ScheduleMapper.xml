@@ -30,8 +30,8 @@
         </if>
     </insert>
 
-    <select id="getCheked">
-        SELECT A.cheked
+    <select id="getChecked">
+        SELECT A.checked
         FROM schedule A
         WHERE schedule_no=#{scheduleNo}
     </select>
@@ -39,11 +39,11 @@
     <update id="scheduleComplete">
         UPDATE schedule
         <set>
-            <if test="cheked==0">
-                cheked=1
+            <if test="checked==0">
+                checked=1
             </if>
-            <if test="cheked==1">
-                cheked=0
+            <if test="checked==1">
+                checked=0
             </if>
         </set>
         WHERE schedule_no=#{scheduleNo}
