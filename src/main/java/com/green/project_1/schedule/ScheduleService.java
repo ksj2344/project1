@@ -55,7 +55,7 @@ public class ScheduleService {
             return ResponseResult.badRequest(ResponseCode.FAIL);
         }
         long doUserNo=userMapper.scheduleUserNoFromSchedule(scheduleNo);
-        if(doUserNo!=signedUserNo){
+        if(doUserNo!=signedUserNo||doUserNo!=userMapper.leaderNoFromscheduleNo(scheduleNo)){
             return ResponseResult.noPermission();
         }
         mapper.scheduleComplete(scheduleNo, mapper.getCheked(scheduleNo));

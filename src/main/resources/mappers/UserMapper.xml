@@ -8,6 +8,15 @@
         FROM project
         WHERE project_no=#{projectNo}
     </select>
+
+    <select id="leaderNoFromscheduleNo">
+        SELECT U.user_no
+        from schedule S
+        INNER JOIN user_project U
+        ON U.user_project_no=S.user_project_no
+        WHERE S.schedule_no=#{scheduleNo}
+    </select>
+
     <select id="scheduleUserNoFromSchedule">
         SELECT user_no
         FROM schedule A
